@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indentation_16"
+        android:layout_marginBottom="@dimen/indentation_24"
+        android:paddingStart="@dimen/indentation_16"
+        android:backgroundTint="@color/white"
+        android:text="@string/settings"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/primary_text_size"
+        android:textAllCaps="false"
+        android:drawablePadding="@dimen/indentation_24"
+        app:drawableStartCompat="@drawable/ic_arrow_back"
+        tools:ignore="RtlSymmetry" />
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indentation_24"
+        android:layout_marginBottom="@dimen/indentation_21"
+        android:paddingStart="@dimen/indentation_16"
+        android:paddingEnd="18dp"
+        android:text="@string/dark_theme"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indentation_21"
+        android:layout_marginBottom="@dimen/indentation_21"
+        android:paddingStart="@dimen/indentation_16"
+        android:paddingEnd="@dimen/indentation_16"
+        android:text="@string/share"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:textAllCaps="false"
+        app:drawableEndCompat="@drawable/ic_share"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indentation_21"
+        android:layout_marginBottom="@dimen/indentation_21"
+        android:paddingStart="@dimen/indentation_16"
+        android:paddingEnd="14dp"
+        android:text="@string/support"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:textAllCaps="false"
+        app:drawableEndCompat="@drawable/ic_support"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indentation_21"
+        android:layout_marginBottom="@dimen/indentation_21"
+        android:paddingStart="@dimen/indentation_16"
+        android:paddingEnd="20dp"
+        android:text="@string/ps"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:textAllCaps="false"
+        app:drawableEndCompat="@drawable/ic_arrow_forward"/>
+
+</LinearLayout>
