@@ -17,6 +17,8 @@
         android:textSize="@dimen/primary_text_size" />
 
     <Button
+        android:id="@+id/search"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/indentation_28"
@@ -36,6 +38,8 @@
         app:iconTint="@color/black"/>
 
     <Button
+        android:id="@+id/media"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/indentation_16"
@@ -54,6 +58,8 @@
         app:iconTint="@color/black"/>
 
     <Button
+        android:id="@+id/settings"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/indentation_16"
