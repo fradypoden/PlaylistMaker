@@ -9,9 +9,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val back = findViewById<TextView>(R.id.backButton2)
-        back.setOnClickListener{finish()}
-
+        val back = findViewById<TextView>(R.id.backButton)
+        back.setOnClickListener { finish() }
     }
-
 }
