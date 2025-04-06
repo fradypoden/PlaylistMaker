@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/indentation_4"
+        android:paddingTop="@dimen/indentation_4"
+        android:paddingEnd="52dp"
+        android:paddingBottom="@dimen/indentation_4">
+
+        <TextView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingStart="@dimen/indentation_12"
+            android:paddingTop="@dimen/indentation_12"
+            android:paddingEnd="@dimen/indentation_12"
+            android:paddingBottom="@dimen/indentation_12"
+            app:drawableStartCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="64dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="68dp"
+            android:paddingBottom="@dimen/indentation_12"
+            android:text="@string/settings"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/primary_text_size"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indentation_24"
+        android:paddingStart="@dimen/indentation_16"
+        android:paddingEnd="18dp"
+        android:paddingTop="@dimen/indentation_21"
+        android:paddingBottom="@dimen/indentation_21"
+        android:text="@string/dark_theme"
+        android:textSize="@dimen/small_text_size"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/indentation_16"
+        android:paddingEnd="@dimen/indentation_16"
+        android:paddingTop="@dimen/indentation_21"
+        android:paddingBottom="@dimen/indentation_21"
+        android:text="@string/share"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:textStyle="normal"
+        app:drawableEndCompat="@drawable/ic_share" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/indentation_16"
+        android:paddingEnd="14dp"
+        android:paddingTop="@dimen/indentation_21"
+        android:paddingBottom="@dimen/indentation_21"
+        android:text="@string/support"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:textStyle="normal"
+        app:drawableEndCompat="@drawable/ic_support" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/indentation_16"
+        android:paddingEnd="20dp"
+        android:paddingTop="@dimen/indentation_21"
+        android:paddingBottom="@dimen/indentation_21"
+        android:text="@string/ps"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:textStyle="normal"
+        app:drawableEndCompat="@drawable/ic_arrow_forward" />
+
+</LinearLayout>
