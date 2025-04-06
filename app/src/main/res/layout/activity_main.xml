@@ -16,66 +16,21 @@
         android:textColor="@color/white"
         android:textSize="@dimen/primary_text_size" />
 
-    <Button
+    <Button style="@style/ButtonStyle"
         android:id="@+id/search"
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:layout_marginTop="@dimen/indentation_28"
-        android:layout_marginStart="@dimen/indentation_16"
-        android:layout_marginEnd="@dimen/indentation_16"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
         android:text="@string/search"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:textSize="@dimen/primary_text_size"
-        android:textColor="@color/black"
-        app:cornerRadius="@dimen/indentation_16"
-        app:icon="@drawable/ic_search"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/indentation_8"
-        app:iconTint="@color/black"/>
+        app:icon="@drawable/ic_search"/>
 
-    <Button
+    <Button style="@style/ButtonStyle"
         android:id="@+id/media"
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/indentation_16"
-        android:layout_marginEnd="@dimen/indentation_16"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
         android:text="@string/media"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:textSize="@dimen/primary_text_size"
-        android:textColor="@color/black"
-        app:cornerRadius="@dimen/indentation_16"
-        app:icon="@drawable/ic_media"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/indentation_8"
-        app:iconTint="@color/black"/>
+        app:icon="@drawable/ic_media"/>
 
-    <Button
+    <Button style="@style/ButtonStyle"
         android:id="@+id/settings"
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/indentation_16"
-        android:layout_marginEnd="@dimen/indentation_16"
-        android:layout_weight="1"
         android:layout_marginBottom="@dimen/indentation_28"
-        android:backgroundTint="@color/white"
         android:text="@string/settings"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:textSize="@dimen/primary_text_size"
-        android:textColor="@color/black"
-        app:cornerRadius="@dimen/indentation_16"
-        app:icon="@drawable/ic_settings"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/indentation_8"
-        app:iconTint="@color/black"/>
+        app:icon="@drawable/ic_settings"/>
 
 </LinearLayout>
