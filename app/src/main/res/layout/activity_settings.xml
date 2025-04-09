@@ -49,12 +49,14 @@
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
+        android:id="@+id/shareButton"
         style="@style/MessageTextStyle"
         android:paddingHorizontal="@dimen/indentation_16"
         android:text="@string/share"
         app:drawableEndCompat="@drawable/ic_share" />
 
     <TextView
+        android:id="@+id/supportButton"
         style="@style/MessageTextStyle"
         android:paddingStart="@dimen/indentation_16"
         android:paddingEnd="14dp"
@@ -62,10 +64,11 @@
         app:drawableEndCompat="@drawable/ic_support" />
 
     <TextView
+        android:id="@+id/userAgreementButton"
         style="@style/MessageTextStyle"
         android:paddingStart="@dimen/indentation_16"
         android:paddingEnd="20dp"
-        android:text="@string/ps"
+        android:text="@string/userAgreement"
         app:drawableEndCompat="@drawable/ic_arrow_forward" />
 
 </LinearLayout>

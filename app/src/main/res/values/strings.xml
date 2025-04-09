@@ -7,5 +7,5 @@
     <string name="dark_theme" translatable="false">Темная тема</string>
     <string name="share" translatable="false">Поделиться приложением</string>
     <string name="support" translatable="false">Написать в поддержку</string>
-    <string name="ps" translatable="false">Пользовательское соглашение</string>
+    <string name="userAgreement" translatable="false">Пользовательское соглашение</string>
 </resources>
