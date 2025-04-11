@@ -34,15 +34,13 @@
     </FrameLayout>
 
     <Switch
-        style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey"
+        style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey.switchColors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/indentation_24"
         android:paddingVertical="@dimen/indentation_21"
         android:paddingStart="@dimen/indentation_16"
         android:paddingEnd="18dp"
-        android:thumbTint="@color/dark_grey"
-        android:trackTint="@color/grey"
         android:text="@string/dark_theme"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 

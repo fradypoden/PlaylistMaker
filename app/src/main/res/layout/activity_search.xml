@@ -23,6 +23,7 @@
             android:text="@string/search" />
 
         <TextView
+            style="@style/arrowColor"
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -39,13 +40,13 @@
         android:paddingVertical="@dimen/indentation_8">
 
         <EditText
+            style="@style/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="name"
             android:background="@drawable/background_search"
             android:drawableStart="@drawable/ic_search_small"
             android:drawablePadding="8dp"
-            android:drawableTint="@color/dark_grey"
             android:fontFamily="@font/ys_display_regular"
             android:hint="@string/search"
             android:inputType="text"
@@ -55,19 +56,19 @@
             android:paddingStart="13dp"
             android:paddingEnd="0dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/dark_grey"
             android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="16sp"
             android:textStyle="normal">
         </EditText>
 
         <ImageView
+            style="@style/clearButtonColor"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_marginEnd="12dp"
             android:src="@drawable/ic_vector"
-            android:visibility="gone"
-            app:tint="@color/dark_grey" />
+            android:visibility="visible" />
 
     </FrameLayout>
 
