@@ -26,26 +26,27 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun shareApp() {
         val intent = Intent(Intent.ACTION_SEND)
-        val text = "https://practicum.yandex.ru/android-developer/?from=catalog"
+        val text = getString(R.string.textToShare)
         intent.putExtra(Intent.EXTRA_TEXT, text)
         intent.setType("text/plain")
-        startActivity(Intent.createChooser(intent, "text"))
+        startActivity(Intent.createChooser(intent, "Тайтл не меняется"))
     }
 
     private fun writeToSupport() {
-        val subject = "Сообщение разработчикам и разработчицам приложения Playlist Maker"
-        val text = "Спасибо разработчикам и разработчицам за крутое приложение!"
+        val subject = getString(R.string.subject)
+        val text = getString(R.string.textToSupport)
+        val mail = getString(R.string.mail)
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("fradypoden@yandex.ru"))
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(mail))
         intent.putExtra(Intent.EXTRA_SUBJECT, subject)
         intent.putExtra(Intent.EXTRA_TEXT, text)
         startActivity(intent)
     }
 
     private fun userAgreement() {
-        val url = "https://yandex.ru/legal/practicum_offer/"
         val intent = Intent(Intent.ACTION_VIEW)
+        val url = getString(R.string.url)
         intent.data = Uri.parse(url)
         startActivity(intent)
     }
