@@ -40,6 +40,7 @@
         android:paddingVertical="@dimen/indentation_8">
 
         <EditText
+            android:id="@+id/searchLine"
             style="@style/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,13 +63,14 @@
         </EditText>
 
         <ImageView
+            android:id="@+id/clearButton"
             style="@style/clearButtonColor"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_marginEnd="12dp"
             android:src="@drawable/ic_vector"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </FrameLayout>
 
