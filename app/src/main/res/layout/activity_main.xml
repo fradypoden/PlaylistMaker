@@ -3,79 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/blue">
+    android:background="?attr/backgroundColor"
+    android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/indentation_16"
-        android:paddingEnd="0dp"
-        android:paddingTop="14dp"
-        android:text="@string/title"
-        android:textColor="@color/white"
-        android:textSize="@dimen/primary_text_size" />
+        app:title="@string/title"
+        app:titleTextAppearance="@style/text.noCaps.22sp.normal.black.ys_display_medium"
+        app:titleTextColor="?attr/textColor3">
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <Button
         android:id="@+id/search"
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        style="@style/mainMenuButton"
         android:layout_marginTop="@dimen/indentation_28"
-        android:layout_marginStart="@dimen/indentation_16"
-        android:layout_marginEnd="@dimen/indentation_16"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
         android:text="@string/search"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:textSize="@dimen/primary_text_size"
-        android:textColor="@color/black"
-        app:cornerRadius="@dimen/indentation_16"
-        app:icon="@drawable/ic_search"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/indentation_8"
-        app:iconTint="@color/black"/>
+        app:icon="@drawable/ic_search" />
 
     <Button
         android:id="@+id/media"
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/indentation_16"
-        android:layout_marginEnd="@dimen/indentation_16"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
+        style="@style/mainMenuButton"
         android:text="@string/media"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:textSize="@dimen/primary_text_size"
-        android:textColor="@color/black"
-        app:cornerRadius="@dimen/indentation_16"
-        app:icon="@drawable/ic_media"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/indentation_8"
-        app:iconTint="@color/black"/>
+        app:icon="@drawable/ic_media" />
 
     <Button
         android:id="@+id/settings"
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/indentation_16"
-        android:layout_marginEnd="@dimen/indentation_16"
-        android:layout_weight="1"
+        style="@style/mainMenuButton"
         android:layout_marginBottom="@dimen/indentation_28"
-        android:backgroundTint="@color/white"
         android:text="@string/settings"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:textSize="@dimen/primary_text_size"
-        android:textColor="@color/black"
-        app:cornerRadius="@dimen/indentation_16"
-        app:icon="@drawable/ic_settings"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/indentation_8"
-        app:iconTint="@color/black"/>
+        app:icon="@drawable/ic_settings" />
 
 </LinearLayout>
