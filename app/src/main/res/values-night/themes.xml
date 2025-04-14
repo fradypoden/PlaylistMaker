@@ -1,20 +1,44 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="textColor">@color/black</item>
+        <item name="textColor2">@color/white</item>
+        <item name="textColor3">@color/white</item>
+        <item name="textHintColor">@color/black</item>
+
+        <item name="drawableTintColor">@color/white</item>
+        <item name="drawableTintColor2">@color/black</item>
+
+        <item name="buttonColor">@color/white</item>
+
+        <item name="iconTintColor">@color/black</item>
+
+        <item name="backgroundColor">@color/black</item>
+
+        <item name="backgroundTintColor">@color/white</item>
+        <item name="backgroundTintColor2">@color/white</item>
+
+        <item name="navigationIconTintColor">@color/white</item>
+
+        <item name="tintColor">@color/black</item>
+
+        <item name="trackTintColor">@color/light_blue</item>
+        <item name="thumbTintColor">@color/blue</item>
+
     </style>
 
-
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
-        <item name="android:background">@color/black</item>
+
     </style>
 
     <style name="Theme.PlaylistMaker.Search" parent="Base.Theme.PlaylistMaker">
+
     </style>
 
     <style name="Theme.PlaylistMaker.Settings" parent="Base.Theme.PlaylistMaker">
-        <item name="drawableTint">@color/white</item>-->
-    </style>
 
+    </style>
 
 
 </resources>

@@ -5,13 +5,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.appbar.MaterialToolbar
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val back = findViewById<TextView>(R.id.backButton)
+        val back = findViewById<MaterialToolbar>(R.id.backButton)
         back.setOnClickListener { finish() }
 
         val share = findViewById<TextView>(R.id.shareButton)

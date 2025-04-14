@@ -3,19 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/indentation_16"
-        android:paddingTop="14dp"
-        android:paddingEnd="0dp"
-        android:fontFamily="@font/ys_display_medium"
-        android:text="@string/title"
-        android:textColor="@color/white"
-        android:textStyle="normal"
-        android:textSize="@dimen/primary_text_size" />
+        app:title="@string/title"
+        app:titleTextAppearance="@style/text.noCaps.22sp.normal.black.ys_display_medium"
+        app:titleTextColor="?attr/textColor3">
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <Button
         android:id="@+id/search"
