@@ -4,95 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical">
 
-    <FrameLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/backButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/indentation_4"
-        android:paddingTop="@dimen/indentation_4"
-        android:paddingEnd="52dp"
-        android:paddingBottom="@dimen/indentation_4">
+        app:contentInsetStartWithNavigation="64dp"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="?attr/navigationIconTintColor"
+        android:paddingStart="4dp"
+        android:paddingEnd="0dp"
+        app:titleTextColor="?attr/textColor2"
+        app:title="@string/settings"
+        app:titleTextAppearance="@style/text.noCaps.22sp.normal.black.ys_display_medium">
 
-        <TextView
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:foreground="?attr/selectableItemBackground"
-            android:paddingStart="@dimen/indentation_12"
-            android:paddingTop="@dimen/indentation_12"
-            android:paddingEnd="@dimen/indentation_12"
-            android:paddingBottom="@dimen/indentation_12"
-            app:drawableStartCompat="@drawable/ic_arrow_back" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="64dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="68dp"
-            android:paddingBottom="@dimen/indentation_12"
-            android:text="@string/settings"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/primary_text_size"
-            android:textStyle="bold" />
-
-    </FrameLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <Switch
+        style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey.switchColors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/indentation_24"
+        android:paddingVertical="@dimen/indentation_21"
         android:paddingStart="@dimen/indentation_16"
         android:paddingEnd="18dp"
-        android:paddingTop="@dimen/indentation_21"
-        android:paddingBottom="@dimen/indentation_21"
         android:text="@string/dark_theme"
-        android:textSize="@dimen/small_text_size"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
+        android:id="@+id/shareButton"
+        style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/indentation_16"
-        android:paddingEnd="@dimen/indentation_16"
-        android:paddingTop="@dimen/indentation_21"
-        android:paddingBottom="@dimen/indentation_21"
+        android:paddingHorizontal="@dimen/indentation_16"
         android:text="@string/share"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/small_text_size"
-        android:textStyle="normal"
         app:drawableEndCompat="@drawable/ic_share" />
 
     <TextView
+        android:id="@+id/supportButton"
+        style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/indentation_16"
         android:paddingEnd="14dp"
-        android:paddingTop="@dimen/indentation_21"
-        android:paddingBottom="@dimen/indentation_21"
         android:text="@string/support"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/small_text_size"
-        android:textStyle="normal"
         app:drawableEndCompat="@drawable/ic_support" />
 
     <TextView
+        android:id="@+id/userAgreementButton"
+        style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/indentation_16"
         android:paddingEnd="20dp"
-        android:paddingTop="@dimen/indentation_21"
-        android:paddingBottom="@dimen/indentation_21"
-        android:text="@string/ps"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/small_text_size"
-        android:textStyle="normal"
+        android:text="@string/userAgreement"
         app:drawableEndCompat="@drawable/ic_arrow_forward" />
 
 </LinearLayout>
