@@ -11,12 +11,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.playlistmaker.R
 
-data class Track(
-    val trackName: String,
-    val artistName: String,
-    val trackTime: String,
-    val artworkUrl100: String
-)
 
 class TrackViewHolder(parentView: View) : RecyclerView.ViewHolder(parentView) {
 
