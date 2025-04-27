@@ -14,4 +14,9 @@
     <string name="textToShare" translatable="false">https://practicum.yandex.ru/android-developer/?from=catalog</string>
     <string name="mail" translatable="false">fradypoden@yandex.ru</string>
 
+
+    <string name="trackName" translatable="false">Название трека</string>
+    <string name="artistName" translatable="false">Имя артиста</string>
+    <string name="trackTime" translatable="false">Время трека</string>
+
 </resources>

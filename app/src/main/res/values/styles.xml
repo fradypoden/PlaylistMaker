@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
+    <style name="text.15ems.1line" parent="">
+        <item name="android:maxEms">15</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+
+    </style>
+
     <style name="text.noCaps.22sp.normal.black.ys_display_medium" parent="">
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/primary_text_size</item>
