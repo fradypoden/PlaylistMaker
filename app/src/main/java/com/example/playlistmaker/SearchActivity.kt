@@ -50,6 +50,7 @@ class SearchActivity : AppCompatActivity() {
         errorText = findViewById(R.id.errorText)
         refreshButton = findViewById(R.id.refresh)
         searchLine = findViewById(R.id.searchLine)
+        val searchText = searchLine.text
 
         adapter.tracks = track
 
@@ -62,8 +63,8 @@ class SearchActivity : AppCompatActivity() {
 
         searchLine.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (searchLine.text.isNotEmpty()) {
-                    search(searchLine.text.toString())
+                if (searchText.isNotEmpty()) {
+                    search(searchText.toString())
                 }
             }
             false
@@ -87,6 +88,13 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.isVisible = !s.isNullOrEmpty()
                 value = s.toString()
+                if (s.isNullOrEmpty()) {
+                    track.clear()
+                    adapter.notifyDataSetChanged()
+                    refreshButton.visibility = View.GONE
+                    errorText.visibility = View.GONE
+                    errorImage.visibility = View.GONE
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -99,6 +107,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun search(query: String) {
+        refreshButton.visibility = View.GONE
+        errorText.visibility = View.GONE
+        errorImage.visibility = View.GONE
         track.clear()
         adapter.notifyDataSetChanged()
         iTunesSearch.search(query).enqueue(object : Callback<TrackResponse> {
