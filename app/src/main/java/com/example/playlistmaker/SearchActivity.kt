@@ -16,24 +16,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.track.iTunesSearchAPI
 import com.example.playlistmaker.track.Track
 import com.example.playlistmaker.track.TrackAdapter
 import com.example.playlistmaker.track.TrackResponse
+import com.example.playlistmaker.track.iTunesSearch
 import com.google.android.material.appbar.MaterialToolbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
     private var value: String? = null
     private lateinit var recyclerView: RecyclerView
-    private val iTunesSearchURL = "https://itunes.apple.com"
-    private val retrofit = Retrofit.Builder().baseUrl(iTunesSearchURL)
-        .addConverterFactory(GsonConverterFactory.create()).build()
-    private val iTunesSearch = retrofit.create(iTunesSearchAPI::class.java)
+
     private val track = ArrayList<Track>()
     private val adapter = TrackAdapter()
     private lateinit var errorImage: ImageView
@@ -50,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
         errorText = findViewById(R.id.errorText)
         refreshButton = findViewById(R.id.refresh)
         searchLine = findViewById(R.id.searchLine)
-        val searchText = searchLine.text
+
 
         adapter.tracks = track
 
@@ -63,23 +58,20 @@ class SearchActivity : AppCompatActivity() {
 
         searchLine.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (searchText.isNotEmpty()) {
-                    search(searchText.toString())
+                if (searchLine.text.isNotEmpty()) {
+                    search(searchLine.text.toString())
                 }
             }
             false
         }
+
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
 
         val clearButton = findViewById<ImageView>(R.id.clearButton)
         clearButton.setOnClickListener {
             searchLine.setText("")
-            track.clear()
-            errorText.visibility = View.INVISIBLE
-            errorImage.visibility = View.INVISIBLE
-            refreshButton.visibility = View.INVISIBLE
-            adapter.notifyDataSetChanged()
+            clearScreen()
             inputMethodManager?.hideSoftInputFromWindow(searchLine.windowToken, 0)
         }
 
@@ -89,11 +81,7 @@ class SearchActivity : AppCompatActivity() {
                 clearButton.isVisible = !s.isNullOrEmpty()
                 value = s.toString()
                 if (s.isNullOrEmpty()) {
-                    track.clear()
-                    adapter.notifyDataSetChanged()
-                    refreshButton.visibility = View.GONE
-                    errorText.visibility = View.GONE
-                    errorImage.visibility = View.GONE
+                    clearScreen()
                 }
             }
 
@@ -107,11 +95,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun search(query: String) {
-        refreshButton.visibility = View.GONE
-        errorText.visibility = View.GONE
-        errorImage.visibility = View.GONE
-        track.clear()
-        adapter.notifyDataSetChanged()
+        clearScreen()
         iTunesSearch.search(query).enqueue(object : Callback<TrackResponse> {
             override fun onResponse(
                 call: Call<TrackResponse>, response: Response<TrackResponse>
@@ -149,6 +133,14 @@ class SearchActivity : AppCompatActivity() {
                 errorImage.setImageResource(errorImageID)
             }
         })
+    }
+
+    private fun clearScreen() {
+        refreshButton.visibility = View.GONE
+        errorText.visibility = View.GONE
+        errorImage.visibility = View.GONE
+        track.clear()
+        adapter.notifyDataSetChanged()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
