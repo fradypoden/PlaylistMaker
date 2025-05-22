@@ -23,6 +23,7 @@
     </com.google.android.material.appbar.MaterialToolbar>
 
     <Switch
+        android:id="@+id/themeSwitcher"
         style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey.switchColors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
