@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -35,6 +36,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var errorText: TextView
     private lateinit var refreshButton: Button
     private lateinit var searchLine: EditText
+    private lateinit var hintMessage: TextView
+    private lateinit var clearHistoryButton: Button
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +48,9 @@ class SearchActivity : AppCompatActivity() {
         errorText = findViewById(R.id.errorText)
         refreshButton = findViewById(R.id.refresh)
         searchLine = findViewById(R.id.searchLine)
+
+        hintMessage = findViewById(R.id.searchHint)
+        clearHistoryButton = findViewById(R.id.clearHistoryButton)
 
 
         adapter.tracks = track
@@ -82,7 +88,11 @@ class SearchActivity : AppCompatActivity() {
                 value = s.toString()
                 if (s.isNullOrEmpty()) {
                     clearScreen()
+                    hintMessage.visibility = if (searchLine.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
+                    recyclerView.visibility = if (searchLine.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
+                    clearHistoryButton.visibility = if (searchLine.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
                 }
+
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -101,15 +111,19 @@ class SearchActivity : AppCompatActivity() {
                 call: Call<TrackResponse>, response: Response<TrackResponse>
             ) {
                 if (response.code() == 200) {
+
                     track.clear()
                     if (response.body()?.results?.isNotEmpty() == true) {
+                        Log.i("NetworkResponse", "Ответ: ${response.code()}")
                         track.addAll(response.body()?.results!!)
                         adapter.notifyDataSetChanged()
                     }
                     if (track.isEmpty()) {
+                        Log.i("NetworkResponse", "Ответ: ${response.code()}")
                         error(R.string.errorNoResults, R.drawable.search_error)
                     }
                 } else {
+                    Log.i("NetworkResponse", "Ответ: ${response.code()}")
                     refreshButton.visibility = View.VISIBLE
                     error(R.string.errorConnectionProblems, R.drawable.internet_error)
                     refreshButton.setOnClickListener {

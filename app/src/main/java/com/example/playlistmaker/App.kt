@@ -1,9 +1,7 @@
-package com.example.playlistmaker.track
+package com.example.playlistmaker
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmaker.DARK_THEME_KEY
-import com.example.playlistmaker.PRACTICUM_EXAMPLE_PREFERENCES
 
 class App : Application() {
 
