@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
+    android:background="?attr/whiteOnBlack"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         app:contentInsetStartWithNavigation="64dp"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="?attr/navigationIconTintColor"
+        app:navigationIconTint="?attr/blackOnWhite"
         android:paddingStart="4dp"
         android:paddingEnd="0dp"
-        app:titleTextColor="?attr/textColor2"
+        app:titleTextColor="?attr/blackOnWhite"
         app:title="@string/settings"
         app:titleTextAppearance="@style/text.noCaps.22sp.normal.black.ys_display_medium">
 
