@@ -39,6 +39,8 @@ class TrackViewHolder(parentView: View) : RecyclerView.ViewHolder(parentView) {
             .apply(RequestOptions.bitmapTransform(RoundedCorners(8)))
             .placeholder(R.drawable.placeholder)
             .into(artworkUrl100)
+
+
     }
 
     companion object {

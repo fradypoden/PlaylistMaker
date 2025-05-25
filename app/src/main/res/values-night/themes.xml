@@ -20,7 +20,7 @@
     </style>
 
     <style name="Theme.PlaylistMaker.Search" parent="Base.Theme.PlaylistMaker">
-
+        <item name="android:windowBackground">@color/black</item>
     </style>
 
     <style name="Theme.PlaylistMaker.Settings" parent="Base.Theme.PlaylistMaker">

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="?attr/whiteOnBlack"
     android:orientation="vertical">
 
@@ -71,13 +72,13 @@
         android:gravity="center"
         android:textSize="19sp"
         android:text="@string/requestHistory"
-        android:visibility="gone"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="@dimen/indentation_16" />
 
     <Button
@@ -92,7 +93,6 @@
         android:text="@string/clearHistory"
         android:textAllCaps="false"
         android:textSize="14sp"
-        android:visibility="gone"
         app:cornerRadius="54dp" />
 
     <ImageView
@@ -126,5 +126,6 @@
         android:textSize="14sp"
         android:visibility="gone"
         app:cornerRadius="54dp" />
+
 
 </LinearLayout>
