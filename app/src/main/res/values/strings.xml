@@ -23,4 +23,7 @@
     <string name="errorNoResults" translatable="false">Ничего не нашлось</string>
     <string name="errorConnectionProblems" translatable="false">Проблемы со связью \n\n Загрузка не удалась. Проверьте подключение к интернету</string>
 
+    <string name="clearHistory" translatable="false">Очистить историю</string>
+    <string name="requestHistory" translatable="false">Вы искали</string>
+
 </resources>

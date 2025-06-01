@@ -3,9 +3,15 @@ package com.example.playlistmaker
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
+
+
+const val PRACTICUM_EXAMPLE_PREFERENCES = "practicum_example_preferences"
+const val DARK_THEME_KEY = "key_for_dark_theme"
+
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +29,20 @@ class SettingsActivity : AppCompatActivity() {
 
         val userAgreement = findViewById<TextView>(R.id.userAgreementButton)
         userAgreement.setOnClickListener { userAgreement() }
+
+        val sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES, MODE_PRIVATE)
+
+        val themeSwitcher = findViewById<Switch>(R.id.themeSwitcher)
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
+
+                themeSwitcher.setOnClickListener {
+                (sharedPrefs.edit().putBoolean(DARK_THEME_KEY, checked).apply())
+            }
+        }
+
+        val darkTheme = false
+        themeSwitcher.isChecked = sharedPrefs.getBoolean(DARK_THEME_KEY, darkTheme)
     }
 
     private fun shareApp() {
