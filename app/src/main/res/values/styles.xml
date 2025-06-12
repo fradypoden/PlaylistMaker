@@ -17,6 +17,14 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
 
+    <style name="text.noCaps.13dp.normal.blackOnWhite.ys_display_regular.ic_dark_grey" parent="">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">?attr/blackOnWhite</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
     <style name="text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey" parent="">
         <item name="android:paddingVertical">@dimen/indentation_21</item>
         <item name="android:textAllCaps">false</item>

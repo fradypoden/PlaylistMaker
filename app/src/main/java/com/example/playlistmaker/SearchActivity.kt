@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -71,6 +72,9 @@ class SearchActivity : AppCompatActivity() {
                 searchHistory.addTrackToHistory(item)
                 historyAdapter.notifyDataSetChanged()
                 adapter.notifyDataSetChanged()
+                val trackIntent = Intent(this@SearchActivity, TrackActivity::class.java)
+                trackIntent.putExtra("track", item)
+                startActivity(trackIntent)
             }
         }
 
@@ -179,6 +183,7 @@ class SearchActivity : AppCompatActivity() {
     private fun search(query: String) {
         clearScreen()
         iTunesSearch.search(query).enqueue(object : Callback<TrackResponse> {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(
                 call: Call<TrackResponse>, response: Response<TrackResponse>
             ) {
@@ -223,6 +228,7 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun clearScreen() {
         refreshButton.visibility = View.GONE
         errorText.visibility = View.GONE

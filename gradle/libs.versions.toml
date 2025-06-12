@@ -31,6 +31,7 @@ converter = { group = "com.squareup.retrofit2", name = "converter-gson", version
 
 
 [plugins]
+parcelize = { id = "kotlin-parcelize"}
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
