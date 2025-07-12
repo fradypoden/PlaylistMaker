@@ -121,13 +121,6 @@ class TrackActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
-    }
-
     private var playerState = STATE_DEFAULT
 
     private fun preparePlayer(url: String) {
@@ -172,10 +165,18 @@ class TrackActivity : AppCompatActivity() {
 
     val updateTime = object : Runnable {
         override fun run() {
-            val formattedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
-            time.text = formattedTime
-            mainThreadHandler?.postDelayed(this, 500)
+            time.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+            mainThreadHandler?.postDelayed(this, DELAY_MILLIS)
         }
     }
+
+    companion object {
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
+        private const val DELAY_MILLIS = 500L
+    }
+
 
 }

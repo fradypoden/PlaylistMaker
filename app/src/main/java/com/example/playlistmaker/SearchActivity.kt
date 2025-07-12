@@ -52,6 +52,9 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var hintMessage: TextView
     private lateinit var clearHistoryButton: Button
     private lateinit var progressBar: ProgressBar
+    private val searchRunnable = Runnable { search(searchLine.text.toString()) }
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +62,7 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
         val sharedPreferences = getSharedPreferences(HISTORY_SEARCH, MODE_PRIVATE)
         val searchHistory = SearchHistory(sharedPreferences)
+
 
         errorImage = findViewById(R.id.errorImage)
         errorText = findViewById(R.id.errorText)
@@ -78,7 +82,7 @@ class SearchActivity : AppCompatActivity() {
                     historyAdapter.notifyDataSetChanged()
                     adapter.notifyDataSetChanged()
                     val trackIntent = Intent(this@SearchActivity, TrackActivity::class.java)
-                    trackIntent.putExtra("track", item)
+                    trackIntent.putExtra(TRACK, item)
                     startActivity(trackIntent)
                 }
 
@@ -249,15 +253,7 @@ class SearchActivity : AppCompatActivity() {
         value = savedInstanceState.getString("VALUE")
     }
 
-    companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
-    }
-    private val searchRunnable = Runnable { search(searchLine.text.toString()) }
 
-    private var isClickAllowed = true
-
-    private val handler = Handler(Looper.getMainLooper())
 
     private fun searchDebounce() {
         handler.removeCallbacks(searchRunnable)
@@ -273,5 +269,15 @@ class SearchActivity : AppCompatActivity() {
         return current
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(searchRunnable)
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val TRACK = "track"
+    }
 
 }
