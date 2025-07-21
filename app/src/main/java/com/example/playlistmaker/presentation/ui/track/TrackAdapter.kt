@@ -1,7 +1,8 @@
-package com.example.playlistmaker.track
+package com.example.playlistmaker.presentation.ui.track
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.domain.models.Track
 
 class TrackAdapter(
     var tracks: ArrayList<Track>,
@@ -23,5 +24,5 @@ class TrackAdapter(
 }
 
 interface OnItemClickListener {
-    fun onItemClick(item: Track)
+    fun onItemClick(track: Track)
 }
