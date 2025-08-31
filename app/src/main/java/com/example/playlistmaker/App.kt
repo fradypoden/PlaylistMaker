@@ -17,6 +17,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        Creator.init(this)
+
         appContext = applicationContext
         val sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES, MODE_PRIVATE)
         val themeSwitch = Creator.provideThemeSwitchInteractor()

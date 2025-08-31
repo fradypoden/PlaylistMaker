@@ -1,7 +1,6 @@
 package com.example.playlistmaker.creator
 
 import android.content.Context
-import com.example.playlistmaker.App
 import com.example.playlistmaker.R
 import com.example.playlistmaker.settings.data.ThemeSwitchRepositoryImpl
 import com.example.playlistmaker.search.data.RetrofitNetworkClient
@@ -27,10 +26,14 @@ import com.google.gson.reflect.TypeToken
 
 object Creator {
 
+    private lateinit var appContext: Context
 
+    fun init (context: Context){
+        this.appContext = context
+    }
 
     private fun getTracksRepository(): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient(App.appContext))
+        return TracksRepositoryImpl(RetrofitNetworkClient(appContext))
     }
 
     fun provideTracksInteractor(): TracksInteractor {
@@ -42,7 +45,7 @@ object Creator {
     private fun getSearchHistoryRepository(): SearchHistoryRepository {
         return SearchHistoryRepositoryImpl(
             PrefsStorageClient<List<Track>>(
-                App.appContext,
+                appContext,
             "HISTORY",
             object : TypeToken<ArrayList<Track>>() {}.type)
         )
@@ -55,7 +58,7 @@ object Creator {
 
 
     private fun getThemeSwitchRepository(): ThemeSwitchRepository {
-        return ThemeSwitchRepositoryImpl(App.appContext)
+        return ThemeSwitchRepositoryImpl(appContext)
     }
 
     fun provideThemeSwitchInteractor(): ThemeSwitchInteractor {
@@ -65,7 +68,7 @@ object Creator {
 
 
     private fun getExternalNavigator(): ExternalNavigator {
-        return ExternalNavigatorImpl(App.appContext)
+        return ExternalNavigatorImpl(appContext)
     }
 
     fun provideSharingInteractor(context: Context): SharingInteractor {

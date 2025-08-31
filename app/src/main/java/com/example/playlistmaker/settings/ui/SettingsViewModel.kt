@@ -6,20 +6,20 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.App
 import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.settings.domain.ThemeSwitchInteractor
 import com.example.playlistmaker.sharing.domain.SharingInteractor
 
-class SettingsViewModel(val sharingInteractor: SharingInteractor) : ViewModel() {
+class SettingsViewModel(val sharingInteractor: SharingInteractor, val themeSwitchInteractor: ThemeSwitchInteractor) : ViewModel() {
 
     companion object {
         fun getFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val sharingInteractor = Creator.provideSharingInteractor(App.appContext)
-                SettingsViewModel(sharingInteractor)
+                val themeSwitchInteractor = Creator.provideThemeSwitchInteractor()
+                SettingsViewModel(sharingInteractor, themeSwitchInteractor)
             }
         }
     }
-
-    val themeSwitchInteractor = Creator.provideThemeSwitchInteractor()
 
     fun switchTheme(darkThemeEnabled: Boolean) {
         themeSwitchInteractor.switchTheme(darkThemeEnabled)

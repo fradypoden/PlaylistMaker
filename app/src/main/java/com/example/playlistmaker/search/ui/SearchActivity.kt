@@ -49,7 +49,7 @@ class SearchActivity : AppCompatActivity() {
             render(it)
         }
 
-        viewModel!!.getTrackHistory()
+        viewModel?.getTrackHistory()
 
         binding.backButton.setOnClickListener { finish() }
 
@@ -58,23 +58,23 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.clearHistoryButton.setOnClickListener {
-            viewModel!!.clearHistory()
+            viewModel?.clearHistory()
             clearScreen()
         }
 
         binding.refresh.setOnClickListener {
-            val lastQuery = viewModel!!.latestSearchText
+            val lastQuery = viewModel?.latestSearchText
             if (lastQuery != null) {
                 if (lastQuery.isNotEmpty()) {
-                    viewModel!!.searchDebounce(lastQuery)
+                    viewModel?.searchDebounce(lastQuery)
                 }
             }
         }
 
         binding.searchLine.doOnTextChanged { s, _, _, _ ->
             viewModel?.searchDebounce(changedText = s?.toString() ?: "")
-            if (s!!.isEmpty()) {
-                viewModel!!.getTrackHistory()
+            if (s.isNullOrEmpty()) {
+                viewModel?.getTrackHistory()
             }
         }
     }

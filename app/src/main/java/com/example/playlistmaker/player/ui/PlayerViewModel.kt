@@ -51,8 +51,8 @@ class PlayerViewModel(private val url: String) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        mediaPlayer.release()
         resetTimer()
+        mediaPlayer.release()
     }
 
     fun onPlayButtonClicked() {
@@ -99,7 +99,7 @@ class PlayerViewModel(private val url: String) : ViewModel() {
     }
 
     fun updateTimerNow(){
-        val currentPosition = mediaPlayer.currentPosition
+        currentPosition = mediaPlayer.currentPosition
         StateLiveData.postValue(
             PlayerState(
                 status = STATE_PAUSED,
@@ -115,5 +115,6 @@ class PlayerViewModel(private val url: String) : ViewModel() {
     private fun resetTimer() {
         handler.removeCallbacks(timerRunnable)
         StateLiveData.postValue(PlayerState(STATE_PAUSED, "00:00"))
+        mediaPlayer.seekTo(0)
     }
 }
