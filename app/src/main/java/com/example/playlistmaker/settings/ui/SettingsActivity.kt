@@ -3,7 +3,6 @@ package com.example.playlistmaker.settings.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
 
 const val PRACTICUM_EXAMPLE_PREFERENCES = "practicum_example_preferences"
@@ -19,11 +18,7 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES, MODE_PRIVATE)
-        val themeSwitchInteractor = Creator.provideThemeSwitchInteractor(sharedPrefs)
-        val sharingInteractor = Creator.provideSharingInteractor(this)
-
-        viewModel = ViewModelProvider(this, SettingsViewModel.getFactory(sharingInteractor, themeSwitchInteractor)).get(
+        viewModel = ViewModelProvider(this, SettingsViewModel.getFactory()).get(
             SettingsViewModel::class.java
         )
 
@@ -45,8 +40,7 @@ class SettingsActivity : AppCompatActivity() {
             viewModel.switchTheme(checked)
         }
 
-        val darkTheme = false
-        binding.themeSwitcher.isChecked = viewModel.getTheme(darkTheme)
+        binding.themeSwitcher.isChecked = viewModel.getTheme(false)
 
     }
 

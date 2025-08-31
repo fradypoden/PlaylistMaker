@@ -1,7 +1,6 @@
 package com.example.playlistmaker.creator
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.example.playlistmaker.R
 import com.example.playlistmaker.settings.data.ThemeSwitchRepositoryImpl
 import com.example.playlistmaker.search.data.RetrofitNetworkClient
@@ -54,12 +53,12 @@ object Creator {
 
 
 
-    private fun getThemeSwitchRepository(sharedPreferences: SharedPreferences): ThemeSwitchRepository {
-        return ThemeSwitchRepositoryImpl(sharedPreferences)
+    private fun getThemeSwitchRepository(context: Context): ThemeSwitchRepository {
+        return ThemeSwitchRepositoryImpl(context)
     }
 
-    fun provideThemeSwitchInteractor(sharedPreferences: SharedPreferences): ThemeSwitchInteractor {
-        return ThemeSwitchInteractorImpl(getThemeSwitchRepository(sharedPreferences))
+    fun provideThemeSwitchInteractor(context: Context): ThemeSwitchInteractor {
+        return ThemeSwitchInteractorImpl(getThemeSwitchRepository(context))
     }
 
 

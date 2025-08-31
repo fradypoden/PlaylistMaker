@@ -13,7 +13,7 @@ class App : Application() {
         super.onCreate()
 
         val sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES, MODE_PRIVATE)
-        val themeSwitch = Creator.provideThemeSwitchInteractor(sharedPrefs)
+        val themeSwitch = Creator.provideThemeSwitchInteractor(this)
         themeSwitch.switchTheme(sharedPrefs.getBoolean(DARK_THEME_KEY, darkTheme))
     }
 }

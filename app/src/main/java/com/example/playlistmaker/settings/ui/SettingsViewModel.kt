@@ -1,30 +1,28 @@
 package com.example.playlistmaker.settings.ui
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.settings.domain.ThemeSwitchInteractor
-import com.example.playlistmaker.sharing.domain.SharingInteractor
+import com.example.playlistmaker.App
+import com.example.playlistmaker.creator.Creator
 
-class SettingsViewModel(
-    private val sharingInteractor: SharingInteractor,
-    private val themeSwitchInteractor: ThemeSwitchInteractor
-) : ViewModel() {
+class SettingsViewModel(private val context: Context) : ViewModel() {
 
     companion object {
-        fun getFactory(
-            sharingInteractor: SharingInteractor,
-            themeSwitchInteractor: ThemeSwitchInteractor
-        ): ViewModelProvider.Factory = viewModelFactory {
+        fun getFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                SettingsViewModel(
-                    sharingInteractor,
-                    themeSwitchInteractor
-                )
+                val app = (this[APPLICATION_KEY] as App)
+                SettingsViewModel(app)
             }
         }
     }
+
+    val sharingInteractor = Creator.provideSharingInteractor(context)
+    val themeSwitchInteractor = Creator.provideThemeSwitchInteractor(context)
+
     fun switchTheme(darkThemeEnabled: Boolean) {
         themeSwitchInteractor.switchTheme(darkThemeEnabled)
     }
@@ -32,7 +30,6 @@ class SettingsViewModel(
     fun getTheme(darkThemeEnabled: Boolean): Boolean {
         return themeSwitchInteractor.getTheme(darkThemeEnabled)
     }
-
 
     fun shareApp() {
         sharingInteractor.shareApp()

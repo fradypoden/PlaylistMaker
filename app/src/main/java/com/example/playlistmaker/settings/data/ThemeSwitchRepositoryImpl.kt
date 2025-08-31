@@ -1,12 +1,16 @@
 package com.example.playlistmaker.settings.data
 
-import android.content.SharedPreferences
+import android.app.Application.MODE_PRIVATE
+import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.settings.domain.ThemeSwitchRepository
 import com.example.playlistmaker.settings.ui.DARK_THEME_KEY
+import com.example.playlistmaker.settings.ui.PRACTICUM_EXAMPLE_PREFERENCES
 
-class ThemeSwitchRepositoryImpl(private val sharedPreferences: SharedPreferences) :
+class ThemeSwitchRepositoryImpl(private val context: Context) :
     ThemeSwitchRepository {
+    private val sharedPreferences =
+        context.getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES, MODE_PRIVATE)
 
     override fun switchTheme(darkThemeEnabled: Boolean) {
         AppCompatDelegate.setDefaultNightMode(
