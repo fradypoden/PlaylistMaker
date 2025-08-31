@@ -5,8 +5,13 @@ plugins {
 }
 
 android {
+
+    buildFeatures {
+        viewBinding = true
+    }
+
     namespace = "com.example.playlistmaker"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.playlistmaker"
@@ -42,6 +47,11 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+    implementation(libs.lifecycleLivedata)
+    implementation(libs.lifecycleViewmodel)
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation ("androidx.activity:activity-ktx:1.10.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
