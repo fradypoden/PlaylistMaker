@@ -25,7 +25,6 @@ class SettingsViewModel(
             }
         }
     }
-//test
     fun switchTheme(darkThemeEnabled: Boolean) {
         themeSwitchInteractor.switchTheme(darkThemeEnabled)
     }
