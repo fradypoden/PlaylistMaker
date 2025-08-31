@@ -1,6 +1,5 @@
 package com.example.playlistmaker.search.ui
 
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -8,31 +7,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.App
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.Track
 import com.example.playlistmaker.search.domain.TracksInteractor
 import com.example.playlistmaker.search.domain.TracksState
 
-class SearchViewModel(private val context: Context) : ViewModel() {
+class SearchViewModel: ViewModel() {
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
 
         fun getFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val app = (this[APPLICATION_KEY] as App)
-                SearchViewModel(app)
+                SearchViewModel()
             }
         }
     }
 
-    private val tracksInteractor = Creator.provideTracksInteractor(context)
-    private val tracksHistoryInteractor = Creator.provideSearchHistoryInteractor(context)
+    private val tracksInteractor = Creator.provideTracksInteractor()
+    private val tracksHistoryInteractor = Creator.provideSearchHistoryInteractor()
 
     var latestSearchText: String? = null
 
@@ -41,11 +37,7 @@ class SearchViewModel(private val context: Context) : ViewModel() {
     private val stateLiveData = MutableLiveData<TracksState>()
     fun observeState(): LiveData<TracksState> = stateLiveData
 
-    private val trackHistory = MutableLiveData<List<Track>>()
-    fun observeTrackHistory(): LiveData<List<Track>> = trackHistory
-
     fun searchDebounce(changedText: String) {
-
         this.latestSearchText = changedText
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
 
@@ -76,7 +68,7 @@ class SearchViewModel(private val context: Context) : ViewModel() {
                             errorMessage != null -> {
                                 renderState(
                                     TracksState.Error(
-                                        errorMessage = context.getString(R.string.errorConnectionProblems),
+                                        errorMessage = R.string.errorConnectionProblems,
                                         errorImage = R.drawable.internet_error
                                     )
                                 )
@@ -85,7 +77,7 @@ class SearchViewModel(private val context: Context) : ViewModel() {
                             tracks.isEmpty() -> {
                                 renderState(
                                     TracksState.Empty(
-                                        errorMessage = context.getString(R.string.errorNoResults),
+                                        errorMessage = R.string.errorNoResults,
                                         errorImage = R.drawable.search_error
                                     )
                                 )
@@ -111,7 +103,8 @@ class SearchViewModel(private val context: Context) : ViewModel() {
     }
 
     fun getTrackHistory() {
-        trackHistory.value = tracksHistoryInteractor.getHistory()
+        renderState(TracksState.HistoryContent(tracksHistoryInteractor.getHistory()))
+        tracksHistoryInteractor.getHistory()
     }
 
     fun clearHistory() {

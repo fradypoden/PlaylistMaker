@@ -1,6 +1,7 @@
 package com.example.playlistmaker.creator
 
 import android.content.Context
+import com.example.playlistmaker.App
 import com.example.playlistmaker.R
 import com.example.playlistmaker.settings.data.ThemeSwitchRepositoryImpl
 import com.example.playlistmaker.search.data.RetrofitNetworkClient
@@ -28,48 +29,48 @@ object Creator {
 
 
 
-    private fun getTracksRepository(context:Context): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient(context))
+    private fun getTracksRepository(): TracksRepository {
+        return TracksRepositoryImpl(RetrofitNetworkClient(App.appContext))
     }
 
-    fun provideTracksInteractor(context:Context): TracksInteractor {
-        return TracksInteractorImpl(getTracksRepository(context))
+    fun provideTracksInteractor(): TracksInteractor {
+        return TracksInteractorImpl(getTracksRepository())
     }
 
 
 
-    private fun getSearchHistoryRepository(context: Context): SearchHistoryRepository {
+    private fun getSearchHistoryRepository(): SearchHistoryRepository {
         return SearchHistoryRepositoryImpl(
-            PrefsStorageClient<ArrayList<Track>>(
-            context,
+            PrefsStorageClient<List<Track>>(
+                App.appContext,
             "HISTORY",
             object : TypeToken<ArrayList<Track>>() {}.type)
         )
     }
 
-    fun provideSearchHistoryInteractor(context: Context): SearchHistoryInteractor {
-        return SearchHistoryInteractorImpl(getSearchHistoryRepository(context))
+    fun provideSearchHistoryInteractor(): SearchHistoryInteractor {
+        return SearchHistoryInteractorImpl(getSearchHistoryRepository())
     }
 
 
 
-    private fun getThemeSwitchRepository(context: Context): ThemeSwitchRepository {
-        return ThemeSwitchRepositoryImpl(context)
+    private fun getThemeSwitchRepository(): ThemeSwitchRepository {
+        return ThemeSwitchRepositoryImpl(App.appContext)
     }
 
-    fun provideThemeSwitchInteractor(context: Context): ThemeSwitchInteractor {
-        return ThemeSwitchInteractorImpl(getThemeSwitchRepository(context))
+    fun provideThemeSwitchInteractor(): ThemeSwitchInteractor {
+        return ThemeSwitchInteractorImpl(getThemeSwitchRepository())
     }
 
 
 
-    private fun getExternalNavigator(context: Context): ExternalNavigator {
-        return ExternalNavigatorImpl(context)
+    private fun getExternalNavigator(): ExternalNavigator {
+        return ExternalNavigatorImpl(App.appContext)
     }
 
     fun provideSharingInteractor(context: Context): SharingInteractor {
         return SharingInteractorImpl(
-            getExternalNavigator(context),
+            getExternalNavigator(),
             shareAppLink = context.getString(R.string.textToShare),
             termsLink = context.getString(R.string.url),
             supportEmailData = EmailData(

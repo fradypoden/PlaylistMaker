@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.ActivitySearchBinding
@@ -17,7 +16,6 @@ import com.example.playlistmaker.search.domain.TracksState
 
 class SearchActivity : AppCompatActivity() {
     private val track = ArrayList<Track>()
-    private var textWatcher: TextWatcher? = null
     private lateinit var adapter: TrackAdapter
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -50,44 +48,17 @@ class SearchActivity : AppCompatActivity() {
         viewModel?.observeState()?.observe(this) {
             render(it)
         }
-        viewModel?.observeTrackHistory()?.observe(this) { trackHistory ->
-            if (binding.searchLine.text.isEmpty() && trackHistory.isNotEmpty()) {
-                clearScreen()
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.clearHistoryButton.visibility = View.VISIBLE
-                binding.searchHint.visibility = View.VISIBLE
-                adapter.tracks.clear()
-                adapter.tracks.addAll(trackHistory)
-                adapter.notifyDataSetChanged()
-            } else if (binding.searchLine.text.isEmpty() && trackHistory.isEmpty()) {
-                clearScreen()
-            } else {
-                binding.recyclerView.visibility = View.VISIBLE
-            }
-        }
+
+        viewModel!!.getTrackHistory()
 
         binding.backButton.setOnClickListener { finish() }
 
         binding.clearButton.setOnClickListener {
             binding.searchLine.setText("")
-            binding.recyclerView.visibility = View.VISIBLE
-            binding.searchHint.visibility = View.VISIBLE
-            binding.clearHistoryButton.visibility = View.VISIBLE
-            viewModel!!.getTrackHistory()
-            adapter.notifyDataSetChanged()
         }
 
         binding.clearHistoryButton.setOnClickListener {
             viewModel!!.clearHistory()
-            clearScreen()
-        }
-
-        if (viewModel!!.getTrackHistory() != null) {
-            clearScreen()
-            binding.searchHint.visibility = View.VISIBLE
-            binding.recyclerView.visibility = View.VISIBLE
-            binding.clearHistoryButton.visibility = View.VISIBLE
-        } else {
             clearScreen()
         }
 
@@ -100,17 +71,12 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable?) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel?.searchDebounce(changedText = s?.toString() ?: "")
-                if (s.toString().isEmpty() && track.isEmpty()) {
-                    clearScreen()
-                }
+        binding.searchLine.doOnTextChanged { s, _, _, _ ->
+            viewModel?.searchDebounce(changedText = s?.toString() ?: "")
+            if (s!!.isEmpty()) {
+                viewModel!!.getTrackHistory()
             }
         }
-        textWatcher?.let { binding.searchLine.addTextChangedListener(it) }
     }
 
     private fun clearScreen() {
@@ -122,11 +88,6 @@ class SearchActivity : AppCompatActivity() {
         binding.searchHint.visibility = View.GONE
         binding.clearHistoryButton.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        textWatcher?.let { binding.searchLine.removeTextChangedListener(it) }
     }
 
     private fun clickDebounce(): Boolean {
@@ -158,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    fun showError(errorMessage: String, errorImage: Int) {
+    fun showError(errorMessage: Int, errorImage: Int) {
         clearScreen()
         binding.apply {
             refresh.visibility = View.VISIBLE
@@ -170,7 +131,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    fun showEmpty(errorMessage: String, errorImage: Int) {
+    fun showEmpty(errorMessage: Int, errorImage: Int) {
         clearScreen()
         binding.clearButton.visibility = View.VISIBLE
         binding.errorText.visibility = View.VISIBLE
@@ -179,12 +140,29 @@ class SearchActivity : AppCompatActivity() {
         binding.errorImage.setImageResource(errorImage)
     }
 
+    fun showHistory(tracks : List<Track>?) {
+        if (binding.searchLine.text.isEmpty() && tracks!!.isNotEmpty()) {
+            clearScreen()
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.clearHistoryButton.visibility = View.VISIBLE
+            binding.searchHint.visibility = View.VISIBLE
+            adapter.tracks.clear()
+            adapter.tracks.addAll(tracks)
+            adapter.notifyDataSetChanged()
+        } else if (binding.searchLine.text.isEmpty() && tracks!!.isEmpty()) {
+            clearScreen()
+        } else {
+            binding.recyclerView.visibility = View.VISIBLE
+        }
+    }
+
     fun render(state: TracksState) {
         when (state) {
             is TracksState.Loading -> showLoading()
             is TracksState.Content -> showContent(state.tracks)
             is TracksState.Error -> showError(state.errorMessage, state.errorImage)
             is TracksState.Empty -> showEmpty(state.errorMessage, state.errorImage)
+            is TracksState.HistoryContent -> showHistory(state.tracks)
         }
     }
 

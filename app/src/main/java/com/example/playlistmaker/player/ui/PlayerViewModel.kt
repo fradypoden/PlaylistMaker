@@ -9,12 +9,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.playlistmaker.player.domain.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerViewModel(private val url: String) : ViewModel() {
 
     companion object {
+
         const val STATE_DEFAULT = 0
         const val STATE_PREPARED = 1
         const val STATE_PLAYING = 2
@@ -27,24 +29,24 @@ class PlayerViewModel(private val url: String) : ViewModel() {
         }
     }
 
-    private val playerStateLiveData = MutableLiveData(STATE_DEFAULT)
-    fun observePlayerState(): LiveData<Int> = playerStateLiveData
+    private val StateLiveData = MutableLiveData<PlayerState>()
+    fun observePlayerState(): LiveData<PlayerState> = StateLiveData
 
-    private val progressTimeLiveData = MutableLiveData("00:00")
-    fun observeProgressTime(): LiveData<String> = progressTimeLiveData
+    private var currentPosition: Int = 0
 
     private val mediaPlayer = MediaPlayer()
 
     private val handler = Handler(Looper.getMainLooper())
 
     private val timerRunnable = Runnable {
-        if (playerStateLiveData.value == STATE_PLAYING) {
+        if (StateLiveData.value?.status == STATE_PLAYING) {
             startTimerUpdate()
         }
     }
 
     init {
         preparePlayer()
+        StateLiveData.value = PlayerState(STATE_DEFAULT)
     }
 
     override fun onCleared() {
@@ -54,9 +56,11 @@ class PlayerViewModel(private val url: String) : ViewModel() {
     }
 
     fun onPlayButtonClicked() {
-        when (playerStateLiveData.value) {
-            STATE_PLAYING -> pausePlayer()
-            STATE_PREPARED, STATE_PAUSED -> startPlayer()
+        if (StateLiveData.value is PlayerState) {
+            when (StateLiveData.value?.status) {
+                STATE_PLAYING -> pausePlayer()
+                STATE_PREPARED, STATE_PAUSED -> startPlayer()
+            }
         }
     }
 
@@ -64,17 +68,17 @@ class PlayerViewModel(private val url: String) : ViewModel() {
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            playerStateLiveData.postValue(STATE_PREPARED)
+            StateLiveData.postValue(PlayerState(STATE_PREPARED))
         }
         mediaPlayer.setOnCompletionListener {
-            playerStateLiveData.postValue(STATE_PREPARED)
+            StateLiveData.postValue(PlayerState(STATE_PREPARED))
             resetTimer()
         }
     }
 
     private fun startPlayer() {
         mediaPlayer.start()
-        playerStateLiveData.postValue(STATE_PLAYING)
+        StateLiveData.postValue(PlayerState(STATE_PLAYING))
         startTimerUpdate()
     }
 
@@ -85,16 +89,23 @@ class PlayerViewModel(private val url: String) : ViewModel() {
     private fun pausePlayer() {
         pauseTimer()
         mediaPlayer.pause()
-        playerStateLiveData.postValue(STATE_PAUSED)
+        StateLiveData.postValue(PlayerState(STATE_PAUSED))
     }
 
     private fun startTimerUpdate() {
-        progressTimeLiveData.postValue(
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(
-                mediaPlayer.currentPosition
+        currentPosition = mediaPlayer.currentPosition
+        StateLiveData.postValue(PlayerState(status = STATE_PLAYING, time = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)))
+        handler.postDelayed(timerRunnable, 200)
+    }
+
+    fun updateTimerNow(){
+        val currentPosition = mediaPlayer.currentPosition
+        StateLiveData.postValue(
+            PlayerState(
+                status = STATE_PAUSED,
+                time = SimpleDateFormat("mm:ss", Locale.getDefault()).format(currentPosition)
             )
         )
-        handler.postDelayed(timerRunnable, 200)
     }
 
     private fun pauseTimer() {
@@ -103,6 +114,6 @@ class PlayerViewModel(private val url: String) : ViewModel() {
 
     private fun resetTimer() {
         handler.removeCallbacks(timerRunnable)
-        progressTimeLiveData.postValue("00:00")
+        StateLiveData.postValue(PlayerState(STATE_PAUSED, "00:00"))
     }
 }
