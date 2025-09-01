@@ -21,3 +21,4 @@ val viewModelModule = module {
         PlayerViewModel(url, MediaPlayer())
     }
 }
+//
