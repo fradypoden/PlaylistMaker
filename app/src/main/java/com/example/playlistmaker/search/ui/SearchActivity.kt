@@ -7,20 +7,20 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.search.domain.Track
 import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.domain.TracksState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
     private val track = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    private var viewModel: SearchViewModel? = null
     private lateinit var binding: ActivitySearchBinding
+    private val viewModel by viewModel<SearchViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,7 @@ class SearchActivity : AppCompatActivity() {
 
         adapter = TrackAdapter { OnItemClickListener ->
             if (clickDebounce()) {
-                viewModel?.addTrackToHistory(OnItemClickListener)
+                viewModel.addTrackToHistory(OnItemClickListener)
                 val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
                 intent.putExtra(TRACK, OnItemClickListener)
                 startActivity(intent)
@@ -41,9 +41,6 @@ class SearchActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         binding.recyclerView.adapter = adapter
-
-        viewModel = ViewModelProvider(this, SearchViewModel.getFactory())
-            .get(SearchViewModel::class.java)
 
         viewModel?.observeState()?.observe(this) {
             render(it)
@@ -63,7 +60,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.refresh.setOnClickListener {
-            val lastQuery = viewModel?.latestSearchText
+            val lastQuery = viewModel.latestSearchText
             if (lastQuery != null) {
                 if (lastQuery.isNotEmpty()) {
                     viewModel?.searchDebounce(lastQuery)
@@ -72,9 +69,9 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.searchLine.doOnTextChanged { s, _, _, _ ->
-            viewModel?.searchDebounce(changedText = s?.toString() ?: "")
+            viewModel.searchDebounce(changedText = s?.toString() ?: "")
             if (s.isNullOrEmpty()) {
-                viewModel?.getTrackHistory()
+                viewModel.getTrackHistory()
             }
         }
     }

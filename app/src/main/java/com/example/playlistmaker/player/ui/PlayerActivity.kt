@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -15,6 +14,8 @@ import com.example.playlistmaker.databinding.ActivityTrackBinding
 import com.example.playlistmaker.player.ui.PlayerViewModel.Companion.STATE_PAUSED
 import com.example.playlistmaker.player.ui.PlayerViewModel.Companion.STATE_PLAYING
 import com.example.playlistmaker.search.domain.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.time.OffsetDateTime
 import java.time.format.DateTimeParseException
 import java.util.Locale
@@ -22,8 +23,8 @@ import java.util.Locale
 class PlayerActivity : AppCompatActivity() {
 
     private var mainThreadHandler: Handler? = null
-    private lateinit var viewModel: PlayerViewModel
     private lateinit var binding: ActivityTrackBinding
+    private val viewModel by viewModel<PlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +41,14 @@ class PlayerActivity : AppCompatActivity() {
         binding.artistName.apply { this.text = track.artistName }
 
         val url = track.previewUrl
+
+        val viewModel: PlayerViewModel by viewModel { parametersOf(url) }
+
         binding.play.setOnClickListener {
             viewModel.onPlayButtonClicked()
         }
 
         binding.time
-
-        viewModel = ViewModelProvider(this, PlayerViewModel.getFactory(url))
-            .get(PlayerViewModel::class.java)
 
         viewModel.updateTimerNow()
 
