@@ -29,13 +29,13 @@ val dataModule = module {
 
     single {
         androidContext()
-            .getSharedPreferences("local_storage", Context.MODE_PRIVATE)
+            .getSharedPreferences(HISTORY, Context.MODE_PRIVATE)
     }
 
     factory { Gson() }
 
     single<StorageClient<List<Track>>> {
-        PrefsStorageClient(androidContext(), HISTORY, object : TypeToken<ArrayList<Track>>() {}.type)
+        PrefsStorageClient(HISTORY, get(), get(), object : TypeToken<ArrayList<Track>>() {}.type)
     }
 
     single<NetworkClient> {
@@ -45,5 +45,4 @@ val dataModule = module {
     single<ExternalNavigator>{
         ExternalNavigatorImpl(androidContext())
     }
-
 }

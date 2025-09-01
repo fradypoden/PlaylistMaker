@@ -10,7 +10,7 @@ import com.example.playlistmaker.player.domain.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel(private val url: String) : ViewModel() {
+class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPlayer) : ViewModel() {
 
     companion object {
         const val STATE_DEFAULT = 0
@@ -23,8 +23,6 @@ class PlayerViewModel(private val url: String) : ViewModel() {
     fun observePlayerState(): LiveData<PlayerState> = StateLiveData
 
     private var currentPosition: Int = 0
-
-    private val mediaPlayer = MediaPlayer()
 
     private val handler = Handler(Looper.getMainLooper())
 
