@@ -49,9 +49,10 @@ dependencies {
     annotationProcessor(libs.compiler)
     implementation(libs.lifecycleLivedata)
     implementation(libs.lifecycleViewmodel)
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation ("androidx.activity:activity-ktx:1.10.1")
+    implementation (libs.lifecycleLivedata)
+    implementation (libs.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.activity.ktx)
+    implementation (libs.koin.android)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

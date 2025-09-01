@@ -3,17 +3,8 @@ package com.example.playlistmaker.search.data
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val context: Context) : NetworkClient {
-
-    val iTunesSearchURL = "https://itunes.apple.com"
-    val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesSearchURL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    val iTunesService = retrofit.create(iTunesApiService::class.java)
+class RetrofitNetworkClient(private val iTunesService: iTunesApiService, private val context: Context) : NetworkClient {
 
     override fun doRequest(dto: Any): Response {
         if (isConnected() == false) {
