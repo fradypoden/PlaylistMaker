@@ -1,6 +1,7 @@
 [versions]
 activityKtx = "1.10.1"
 agp = "8.7.3"
+fragmentKtx = "1.5.5"
 koinAndroid = "3.3.0"
 kotlin = "1.9.24"
 coreKtx = "1.10.1"
@@ -16,10 +17,13 @@ glide = "4.14.2"
 gson = "2.10"
 retrofit = "2.9.0"
 lifecycle = "2.5.1"
+viewpager2 = "1.0.0"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
