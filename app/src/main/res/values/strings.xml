@@ -14,6 +14,10 @@
     <string name="textToShare" translatable="false">https://practicum.yandex.ru/android-developer/?from=catalog</string>
     <string name="mail" translatable="false">fradypoden@yandex.ru</string>
     <string name="refresh" translatable="false">Обновить</string>
+    <string name="mediaLibrary" translatable="false">Медиатека</string>
+    <string name="mediaLibraryEmpty" translatable="false">Ваша медиатека пуста</string>
+    <string name="newPlaylist" translatable="false">Новый плейлист</string>
+    <string name="playlistsEmpty" translatable="false">Вы не создали \nни одного плейлиста</string>
 
 
     <string name="trackName" translatable="false">Название трека</string>
