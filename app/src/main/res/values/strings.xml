@@ -18,6 +18,8 @@
     <string name="mediaLibraryEmpty" translatable="false">Ваша медиатека пуста</string>
     <string name="newPlaylist" translatable="false">Новый плейлист</string>
     <string name="playlistsEmpty" translatable="false">Вы не создали \nни одного плейлиста</string>
+    <string name="favoriteTracks" translatable="false">Избранные треки</string>
+    <string name="playlists" translatable="false">Плейлисты</string>
 
 
     <string name="trackName" translatable="false">Название трека</string>
