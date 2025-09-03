@@ -14,8 +14,8 @@ class MediaLibraryAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> FavoriteTracks.newInstance()
-            else -> Playlists.newInstance()
+            0 -> FavoriteTracksFragment.newInstance()
+            else -> PlaylistsFragment.newInstance()
         }
     }
 }

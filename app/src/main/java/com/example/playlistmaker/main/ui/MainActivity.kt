@@ -1,12 +1,12 @@
 package com.example.playlistmaker.main.ui
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.playlistmaker.media_library.ui.MediaLibraryActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityMainBinding
-import com.example.playlistmaker.search.ui.SearchActivity
-import com.example.playlistmaker.settings.ui.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,19 +17,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.search.setOnClickListener {
-            val searchIntent = Intent(this, SearchActivity::class.java)
-            startActivity(searchIntent)
-        }
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
+        val navController = navHostFragment.navController
 
-        binding.media.setOnClickListener {
-            val mediaIntent = Intent(this, MediaLibraryActivity::class.java)
-            startActivity(mediaIntent)
-        }
+        binding.bottomNavigationView.setupWithNavController(navController)
 
-        binding.settings.setOnClickListener {
-            val settingsIntent = Intent(this, SettingsActivity::class.java)
-            startActivity(settingsIntent)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.playerFragment -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                else -> {
+                    binding.bottomNavigationView.visibility = View.VISIBLE
+                }
+            }
         }
     }
 }

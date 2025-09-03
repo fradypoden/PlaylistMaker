@@ -7,7 +7,7 @@ import com.example.playlistmaker.search.data.RetrofitNetworkClient
 import com.example.playlistmaker.search.data.StorageClient
 import com.example.playlistmaker.search.data.iTunesApiService
 import com.example.playlistmaker.search.domain.Track
-import com.example.playlistmaker.search.ui.SearchActivity.Companion.HISTORY
+import com.example.playlistmaker.search.ui.SearchFragment.Companion.HISTORY
 import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
 import com.example.playlistmaker.sharing.domain.ExternalNavigator
 import com.google.gson.Gson

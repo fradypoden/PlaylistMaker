@@ -1,54 +1,69 @@
 package com.example.playlistmaker.search.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.R
+import com.example.playlistmaker.databinding.FragmentSearchBinding
+import com.example.playlistmaker.player.ui.PlayerFragment
 import com.example.playlistmaker.search.domain.Track
-import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.domain.TracksState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel by viewModel<SearchViewModel>()
     private val track = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    private lateinit var binding: ActivitySearchBinding
-    private val viewModel by viewModel<SearchViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        adapter = TrackAdapter { OnItemClickListener ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter = TrackAdapter { track ->
             if (clickDebounce()) {
-                viewModel.addTrackToHistory(OnItemClickListener)
-                val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
-                intent.putExtra(TRACK, OnItemClickListener)
-                startActivity(intent)
+                viewModel.addTrackToHistory(track)
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_playerFragment,
+                    bundleOf(PlayerFragment.TRACK to track)
+                )
             }
         }
+
         adapter.tracks = track
 
         binding.recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         binding.recyclerView.adapter = adapter
 
-        viewModel?.observeState()?.observe(this) {
+        viewModel.observeState().observe(viewLifecycleOwner) {
+            binding.errorText.visibility = View.GONE
+            binding.errorImage.visibility = View.GONE
             render(it)
         }
 
-        viewModel?.getTrackHistory()
-
-        binding.backButton.setOnClickListener { finish() }
+        viewModel.getTrackHistory()
 
         binding.clearButton.setOnClickListener {
             binding.searchLine.setText("")
@@ -70,6 +85,7 @@ class SearchActivity : AppCompatActivity() {
 
         binding.searchLine.doOnTextChanged { s, _, _, _ ->
             viewModel.searchDebounce(changedText = s?.toString() ?: "")
+            binding.clearButton.visibility = View.VISIBLE
             if (s.isNullOrEmpty()) {
                 viewModel.getTrackHistory()
             }
@@ -101,6 +117,7 @@ class SearchActivity : AppCompatActivity() {
         binding.apply {
             track.clear()
             progressBar.visibility = View.VISIBLE
+            clearButton.visibility = View.VISIBLE
         }
     }
 
@@ -137,7 +154,7 @@ class SearchActivity : AppCompatActivity() {
         binding.errorImage.setImageResource(errorImage)
     }
 
-    fun showHistory(tracks : List<Track>?) {
+    fun showHistory(tracks: List<Track>?) {
         if (binding.searchLine.text.isEmpty() && tracks!!.isNotEmpty()) {
             clearScreen()
             binding.recyclerView.visibility = View.VISIBLE
@@ -149,6 +166,8 @@ class SearchActivity : AppCompatActivity() {
         } else if (binding.searchLine.text.isEmpty() && tracks!!.isEmpty()) {
             clearScreen()
         } else {
+            binding.searchHint.visibility = View.GONE
+            binding.clearHistoryButton.visibility = View.GONE
             binding.recyclerView.visibility = View.VISIBLE
         }
     }
@@ -163,10 +182,13 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
-        private const val TRACK = "track"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
         const val HISTORY = "HISTORY"
     }
-
 }

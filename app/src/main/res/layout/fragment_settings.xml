@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/whiteOnBlack"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.playlistmaker.settings.ui.SettingsFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/backButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStartWithNavigation="64dp"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="?attr/blackOnWhite"
         android:paddingStart="4dp"
         android:paddingEnd="0dp"
         app:titleTextColor="?attr/blackOnWhite"

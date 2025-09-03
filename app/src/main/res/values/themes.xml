@@ -11,19 +11,9 @@
         <item name="greyOnWhite">@color/grey</item>
         <item name="greyOnLightBlue">@color/grey</item>
         <item name="darkGreyOnBlue">@color/dark_grey</item>
-
+        <item name="blueOnBlue">@color/blue</item>
     </style>
 
-    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
-        <item name="whiteOnBlack">@color/blue</item>
-    </style>
-
-    <style name="Theme.PlaylistMaker.Search" parent="Base.Theme.PlaylistMaker">
-
-    </style>
-
-    <style name="Theme.PlaylistMaker.Settings" parent="Base.Theme.PlaylistMaker">
-
-    </style>
+    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker"></style>
 
 </resources>

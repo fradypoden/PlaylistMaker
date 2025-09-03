@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linearLayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="?attr/whiteOnBlack"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.playlistmaker.media_library.ui.MediaLibraryFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/backButton"
@@ -14,8 +15,6 @@
         android:paddingStart="4dp"
         android:paddingEnd="0dp"
         app:contentInsetStartWithNavigation="64dp"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="?attr/blackOnWhite"
         app:title="@string/mediaLibrary"
         app:titleTextAppearance="@style/text.noCaps.22sp.normal.black.ys_display_medium" />
 
