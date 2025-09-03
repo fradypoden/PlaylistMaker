@@ -4,13 +4,16 @@ import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivityTrackBinding
+import com.example.playlistmaker.databinding.FragmentTrackBinding
 import com.example.playlistmaker.player.ui.PlayerViewModel.Companion.STATE_PAUSED
 import com.example.playlistmaker.player.ui.PlayerViewModel.Companion.STATE_PLAYING
 import com.example.playlistmaker.search.domain.Track
@@ -20,27 +23,32 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeParseException
 import java.util.Locale
 
-class PlayerActivity : AppCompatActivity() {
-
-    private var mainThreadHandler: Handler? = null
-    private lateinit var binding: ActivityTrackBinding
+class PlayerFragment : Fragment() {
+    private lateinit var binding: FragmentTrackBinding
     private val viewModel by viewModel<PlayerViewModel>()
+    private var mainThreadHandler: Handler? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityTrackBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentTrackBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.backButton.setOnClickListener { findNavController().navigateUp() }
 
         mainThreadHandler = Handler(Looper.getMainLooper())
+        val track = arguments?.getParcelable<Track>(TRACK)
 
-        binding.backButton.setOnClickListener { finish() }
+        binding.trackName.apply { this.text = track?.trackName }
+        binding.artistName.apply { this.text = track?.artistName }
 
-        val track = intent.getParcelableExtra<Track>("track") as Track
-
-        binding.trackName.apply { this.text = track.trackName }
-        binding.artistName.apply { this.text = track.artistName }
-
-        val url = track.previewUrl
+        val url = track?.previewUrl
 
         val viewModel: PlayerViewModel by viewModel { parametersOf(url) }
 
@@ -52,7 +60,7 @@ class PlayerActivity : AppCompatActivity() {
 
         viewModel.updateTimerNow()
 
-        viewModel.observePlayerState().observe(this) { state ->
+        viewModel.observePlayerState().observe(viewLifecycleOwner) { state ->
             when (state.status) {
                 STATE_PLAYING -> {
                     binding.play.setImageResource(R.drawable.button_pause)
@@ -70,12 +78,12 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         binding.trackTimeMillis.apply {
-            this.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+            this.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
         }
 
         binding.artworkUrl100.apply {
             Glide.with(this)
-                .load(track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"))
+                .load(track?.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg"))
                 .centerCrop()
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(8)))
                 .placeholder(R.drawable.placeholder)
@@ -84,14 +92,14 @@ class PlayerActivity : AppCompatActivity() {
 
         binding.collectionNameText
         binding.collectionName.apply {
-            if (track.collectionName.isNullOrEmpty()) {
+            if (track?.collectionName.isNullOrEmpty()) {
                 this.visibility = View.GONE
                 binding.collectionNameText.visibility = View.GONE
-            } else this.text = track.collectionName
+            } else this.text = track?.collectionName
         }
         binding.releaseDateText
         binding.releaseDate.apply {
-            val correctYear = yearTransformation(track.releaseDate)
+            val correctYear = track?.let { yearTransformation(it.releaseDate) }
             if (correctYear.isNullOrEmpty()) {
                 this.visibility = View.GONE
                 binding.releaseDateText.visibility = View.GONE
@@ -100,18 +108,18 @@ class PlayerActivity : AppCompatActivity() {
 
         binding.primaryGenreNameText
         binding.primaryGenreName.apply {
-            if (track.primaryGenreName.isNullOrEmpty()) {
+            if (track?.primaryGenreName.isNullOrEmpty()) {
                 this.visibility = View.GONE
                 binding.primaryGenreNameText.visibility = View.GONE
-            } else this.text = track.primaryGenreName
+            } else this.text = track?.primaryGenreName
         }
 
         binding.countryText
         binding.country.apply {
-            if (track.country.isNullOrEmpty()) {
+            if (track?.country.isNullOrEmpty()) {
                 this.visibility = View.GONE
                 binding.countryText.visibility = View.GONE
-            } else this.text = track.country
+            } else this.text = track?.country
         }
     }
 
@@ -127,5 +135,9 @@ class PlayerActivity : AppCompatActivity() {
         } catch (e: DateTimeParseException) {
             null
         }
+    }
+
+    companion object {
+        val TRACK = "track"
     }
 }

@@ -10,5 +10,6 @@
     <attr name="greyOnLightBlue" format="color" />
     <attr name="darkGreyOnBlue" format="color" />
     <attr name="darkGreyOnBlack" format="color" />
+    <attr name="blueOnBlue" format="color" />
 
 </resources>

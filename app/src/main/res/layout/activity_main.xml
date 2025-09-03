@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/whiteOnBlack"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:layout_width="wrap_content"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/container_view"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/main_navigation_graph" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:title="@string/title"
-        app:titleTextAppearance="@style/text.noCaps.22sp.normal.black.ys_display_medium"
-        app:titleTextColor="?attr/whiteOnWhite">
 
-    </com.google.android.material.appbar.MaterialToolbar>
+        android:background="?attr/whiteOnBlack"
+        app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemTextColor="@color/bottom_nav_item_color"
 
-    <Button
-        android:id="@+id/search"
-        style="@style/mainMenuButton"
-        android:layout_marginTop="@dimen/indentation_28"
-        android:text="@string/search"
-        app:icon="@drawable/ic_search" />
+        app:layout_constraintBottom_toBottomOf="parent"
 
-    <Button
-        android:id="@+id/media"
-        style="@style/mainMenuButton"
-        android:text="@string/media"
-        app:icon="@drawable/ic_media" />
-
-    <Button
-        android:id="@+id/settings"
-        style="@style/mainMenuButton"
-        android:layout_marginBottom="@dimen/indentation_28"
-        android:text="@string/settings"
-        app:icon="@drawable/ic_settings" />
-
-</LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+</androidx.constraintlayout.widget.ConstraintLayout>
