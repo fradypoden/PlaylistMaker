@@ -19,7 +19,9 @@ import com.example.playlistmaker.search.domain.TracksState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
-    private lateinit var binding: FragmentSearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel by viewModel<SearchViewModel>()
     private val track = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
@@ -31,7 +33,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -83,6 +85,7 @@ class SearchFragment : Fragment() {
 
         binding.searchLine.doOnTextChanged { s, _, _, _ ->
             viewModel.searchDebounce(changedText = s?.toString() ?: "")
+            binding.clearButton.visibility = View.VISIBLE
             if (s.isNullOrEmpty()) {
                 viewModel.getTrackHistory()
             }
@@ -114,6 +117,7 @@ class SearchFragment : Fragment() {
         binding.apply {
             track.clear()
             progressBar.visibility = View.VISIBLE
+            clearButton.visibility = View.VISIBLE
         }
     }
 
@@ -176,6 +180,11 @@ class SearchFragment : Fragment() {
             is TracksState.Empty -> showEmpty(state.errorMessage, state.errorImage)
             is TracksState.HistoryContent -> showHistory(state.tracks)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

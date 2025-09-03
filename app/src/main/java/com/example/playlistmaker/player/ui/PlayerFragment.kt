@@ -24,7 +24,9 @@ import java.time.format.DateTimeParseException
 import java.util.Locale
 
 class PlayerFragment : Fragment() {
-    private lateinit var binding: FragmentTrackBinding
+    private var _binding: FragmentTrackBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel by viewModel<PlayerViewModel>()
     private var mainThreadHandler: Handler? = null
 
@@ -33,7 +35,7 @@ class PlayerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTrackBinding.inflate(inflater, container, false)
+        _binding = FragmentTrackBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -135,6 +137,11 @@ class PlayerFragment : Fragment() {
         } catch (e: DateTimeParseException) {
             null
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
