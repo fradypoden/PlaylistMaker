@@ -19,10 +19,11 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
         const val STATE_PREPARED = 1
         const val STATE_PLAYING = 2
         const val STATE_PAUSED = 3
+        const val DELAY = 300L
     }
 
     private var timerJob: Job? = null
-
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
     private val StateLiveData = MutableLiveData<PlayerState>()
     fun observePlayerState(): LiveData<PlayerState> = StateLiveData
 
@@ -76,10 +77,11 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
     }
 
     private fun startTimer() {
+        timerJob?.cancel()
         timerJob = viewModelScope.launch {
             while (mediaPlayer.isPlaying) {
-                StateLiveData.postValue(PlayerState(status = STATE_PLAYING, time = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)))
-                delay(300L)
+                StateLiveData.postValue(PlayerState(status = STATE_PLAYING, time = dateFormat.format(mediaPlayer.currentPosition)))
+                delay(DELAY)
             }
         }
     }
