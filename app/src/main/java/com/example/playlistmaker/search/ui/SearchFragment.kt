@@ -1,14 +1,13 @@
 package com.example.playlistmaker.search.ui
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
@@ -16,6 +15,8 @@ import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.ui.PlayerFragment
 import com.example.playlistmaker.search.domain.Track
 import com.example.playlistmaker.search.domain.TracksState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -26,7 +27,6 @@ class SearchFragment : Fragment() {
     private val track = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
     private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +39,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        isClickAllowed = true
         adapter = TrackAdapter { track ->
             if (clickDebounce()) {
                 viewModel.addTrackToHistory(track)
@@ -107,7 +107,10 @@ class SearchFragment : Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
         }
         return current
     }

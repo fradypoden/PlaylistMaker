@@ -2,8 +2,6 @@ package com.example.playlistmaker.player.ui
 
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +26,6 @@ class PlayerFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<PlayerViewModel>()
-    private var mainThreadHandler: Handler? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +41,6 @@ class PlayerFragment : Fragment() {
 
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
 
-        mainThreadHandler = Handler(Looper.getMainLooper())
         val track = arguments?.getParcelable<Track>(TRACK)
 
         binding.trackName.apply { this.text = track?.trackName }
