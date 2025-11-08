@@ -1,12 +1,14 @@
 package com.example.playlistmaker.player.ui
 
 import android.media.MediaPlayer
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.PlayerState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -19,18 +21,12 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
         const val STATE_PAUSED = 3
     }
 
+    private var timerJob: Job? = null
+
     private val StateLiveData = MutableLiveData<PlayerState>()
     fun observePlayerState(): LiveData<PlayerState> = StateLiveData
 
     private var currentPosition: Int = 0
-
-    private val handler = Handler(Looper.getMainLooper())
-
-    private val timerRunnable = Runnable {
-        if (StateLiveData.value?.status == STATE_PLAYING) {
-            startTimerUpdate()
-        }
-    }
 
     init {
         preparePlayer()
@@ -67,7 +63,7 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
     private fun startPlayer() {
         mediaPlayer.start()
         StateLiveData.postValue(PlayerState(STATE_PLAYING))
-        startTimerUpdate()
+        startTimer()
     }
 
     fun onPause() {
@@ -75,15 +71,17 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
     }
 
     private fun pausePlayer() {
-        pauseTimer()
         mediaPlayer.pause()
         StateLiveData.postValue(PlayerState(STATE_PAUSED))
     }
 
-    private fun startTimerUpdate() {
-        currentPosition = mediaPlayer.currentPosition
-        StateLiveData.postValue(PlayerState(status = STATE_PLAYING, time = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)))
-        handler.postDelayed(timerRunnable, 200)
+    private fun startTimer() {
+        timerJob = viewModelScope.launch {
+            while (mediaPlayer.isPlaying) {
+                StateLiveData.postValue(PlayerState(status = STATE_PLAYING, time = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)))
+                delay(300L)
+            }
+        }
     }
 
     fun updateTimerNow(){
@@ -96,12 +94,7 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
         )
     }
 
-    private fun pauseTimer() {
-        handler.removeCallbacks(timerRunnable)
-    }
-
     private fun resetTimer() {
-        handler.removeCallbacks(timerRunnable)
         StateLiveData.postValue(PlayerState(STATE_PAUSED, "00:00"))
         mediaPlayer.seekTo(0)
     }
