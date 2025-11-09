@@ -4,7 +4,7 @@ class SearchHistoryInteractorImpl(
     private val repository: SearchHistoryRepository
 ) : SearchHistoryInteractor {
 
-    override fun saveToHistory(track: Track) {
+    override suspend fun saveToHistory(track: Track) {
         val tracks = repository.getHistory()?.toMutableList()
         if (tracks != null) {
             tracks.removeIf { it.trackId == track.trackId }
@@ -16,8 +16,9 @@ class SearchHistoryInteractorImpl(
         }
     }
 
-    override fun getHistory(): List<Track>? {
+    override suspend fun getHistory(): List<Track>? {
         return repository.getHistory()
+
     }
 
     override fun deleteHistory() {

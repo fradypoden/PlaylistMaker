@@ -48,7 +48,25 @@ class PlayerFragment : Fragment() {
 
         val url = track?.previewUrl
 
-        val viewModel: PlayerViewModel by viewModel { parametersOf(url) }
+        val viewModel: PlayerViewModel by viewModel { parametersOf(track) }
+
+
+        if (track!!.isFavorite) {
+            binding.favorite.setImageResource(R.drawable.favorite_yes)
+        } else binding.favorite.setImageResource(R.drawable.favorite)
+
+
+        binding.favorite.setOnClickListener {
+            viewModel.onFavoriteClicked()
+        }
+
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+            if (isFavorite.favTrState) {
+                binding.favorite.setImageResource(R.drawable.favorite_yes)
+            } else {
+                binding.favorite.setImageResource(R.drawable.favorite)
+            }
+        }
 
         binding.play.setOnClickListener {
             viewModel.onPlayButtonClicked()
@@ -66,6 +84,7 @@ class PlayerFragment : Fragment() {
                         binding.time.text = state.time
                     }
                 }
+
                 STATE_PAUSED -> {
                     binding.play.setImageResource(R.drawable.play)
                     if (state.time != null) {
@@ -76,7 +95,8 @@ class PlayerFragment : Fragment() {
         }
 
         binding.trackTimeMillis.apply {
-            this.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
+            this.text =
+                SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
         }
 
         binding.artworkUrl100.apply {

@@ -1,0 +1,10 @@
+package com.example.playlistmaker.media_library.domain
+
+import com.example.playlistmaker.search.domain.Track
+import kotlinx.coroutines.flow.Flow
+
+interface FavTrInteractor {
+    suspend fun insertTrack(track: Track)
+    suspend fun deleteTrack(track: Track)
+    suspend fun getTracks(): Flow<List<Track>>
+}

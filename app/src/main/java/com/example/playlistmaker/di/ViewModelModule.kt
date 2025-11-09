@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import com.example.playlistmaker.media_library.ui.FavoriteTracksViewModel
 import com.example.playlistmaker.media_library.ui.PlaylistsViewModel
 import com.example.playlistmaker.player.ui.PlayerViewModel
+import com.example.playlistmaker.search.domain.Track
 import com.example.playlistmaker.search.ui.SearchViewModel
 import com.example.playlistmaker.settings.ui.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,12 +20,12 @@ val viewModelModule = module {
         SearchViewModel(get(), get())
     }
 
-    viewModel{ (url: String) ->
-        PlayerViewModel(url, MediaPlayer())
+    viewModel{ (track: Track) ->
+        PlayerViewModel(track, MediaPlayer(), get())
     }
 
     viewModel {
-        FavoriteTracksViewModel()
+        FavoriteTracksViewModel(get())
     }
 
     viewModel {

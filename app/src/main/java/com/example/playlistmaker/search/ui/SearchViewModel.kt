@@ -88,17 +88,17 @@ class SearchViewModel(
         }
     }
 
-    fun addTrackToHistory(track: Track) {
+    suspend fun addTrackToHistory(track: Track) {
         tracksHistoryInteractor.saveToHistory(track)
         getTrackHistory()
     }
 
-    fun getTrackHistory() {
+    suspend fun getTrackHistory() {
         renderState(TracksState.HistoryContent(tracksHistoryInteractor.getHistory()))
         tracksHistoryInteractor.getHistory()
     }
 
-    fun clearHistory() {
+    suspend fun clearHistory() {
         tracksHistoryInteractor.deleteHistory()
         getTrackHistory()
     }

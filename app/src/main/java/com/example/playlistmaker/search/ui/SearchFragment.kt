@@ -32,7 +32,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -42,11 +42,13 @@ class SearchFragment : Fragment() {
         isClickAllowed = true
         adapter = TrackAdapter { track ->
             if (clickDebounce()) {
-                viewModel.addTrackToHistory(track)
-                findNavController().navigate(
-                    R.id.action_searchFragment_to_playerFragment,
-                    bundleOf(PlayerFragment.TRACK to track)
-                )
+                lifecycleScope.launch {
+                    viewModel.addTrackToHistory(track)
+                    findNavController().navigate(
+                        R.id.action_searchFragment_to_playerFragment,
+                        bundleOf(PlayerFragment.TRACK to track)
+                    )
+                }
             }
         }
 
@@ -62,16 +64,17 @@ class SearchFragment : Fragment() {
             binding.errorImage.visibility = View.GONE
             render(it)
         }
-
-        viewModel.getTrackHistory()
+        lifecycleScope.launch { viewModel.getTrackHistory() }
 
         binding.clearButton.setOnClickListener {
             binding.searchLine.setText("")
         }
 
         binding.clearHistoryButton.setOnClickListener {
-            viewModel?.clearHistory()
-            clearScreen()
+            lifecycleScope.launch {
+                viewModel?.clearHistory()
+                clearScreen()
+            }
         }
 
         binding.refresh.setOnClickListener {
@@ -87,7 +90,7 @@ class SearchFragment : Fragment() {
             viewModel.searchDebounce(changedText = s?.toString() ?: "")
             binding.clearButton.visibility = View.VISIBLE
             if (s.isNullOrEmpty()) {
-                viewModel.getTrackHistory()
+                lifecycleScope.launch { viewModel.getTrackHistory() }
             }
         }
     }
@@ -191,7 +194,7 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        const val CLICK_DEBOUNCE_DELAY = 1000L
         const val HISTORY = "HISTORY"
     }
 }
