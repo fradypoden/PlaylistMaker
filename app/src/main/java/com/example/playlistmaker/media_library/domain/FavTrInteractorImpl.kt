@@ -9,8 +9,8 @@ class FavTrInteractorImpl(private val repository: FavTrRepository) : FavTrIntera
         repository.insertTrack(track)
     }
 
-    override suspend fun deleteTrack(track: Track) {
-        repository.deleteTrack(track)
+    override suspend fun deleteTrack(trackId: Int) {
+        repository.deleteTrack(trackId)
     }
 
     override suspend fun getTracks(): Flow<List<Track>> {

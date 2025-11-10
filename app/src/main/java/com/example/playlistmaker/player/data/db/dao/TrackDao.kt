@@ -13,8 +13,8 @@ interface TrackDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTrack(track: TrackEntity)
 
-    @Delete()
-    suspend fun deleteTrack(track: TrackEntity)
+    @Query("DELETE FROM track_table WHERE trackId = :trackId")
+    suspend fun deleteTrack(trackId: Int)
 
     @Query("SELECT * FROM track_table")
     suspend fun getTracks(): List<TrackEntity>

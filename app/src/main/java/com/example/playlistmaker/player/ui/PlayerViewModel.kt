@@ -11,12 +11,13 @@ import com.example.playlistmaker.player.domain.PlayerState
 import com.example.playlistmaker.search.domain.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerViewModel(
-    private val track: Track,
     private val mediaPlayer: MediaPlayer,
     private val favTrInteractor: FavTrInteractor
 ) : ViewModel() {
@@ -35,12 +36,20 @@ class PlayerViewModel(
     fun observePlayerState(): LiveData<PlayerState> = StateLiveData
     private var _isFavorite = MutableLiveData<FavTrState>()
     val isFavorite: LiveData<FavTrState> get() = _isFavorite
+    private var track: Track? = null
 
     private var currentPosition: Int = 0
 
     init {
-        preparePlayer()
         StateLiveData.value = PlayerState(STATE_DEFAULT)
+    }
+
+    suspend fun setTrack(track: Track) {
+        this.track = track
+        val trackId = favTrInteractor.
+        getTracks().map { it.map { it.trackId } }.firstOrNull() ?: emptyList()
+        _isFavorite.postValue(FavTrState(trackId.contains(track.trackId)))
+        preparePlayer()
     }
 
     override fun onCleared() {
@@ -49,17 +58,15 @@ class PlayerViewModel(
         mediaPlayer.release()
     }
 
-    fun onFavoriteClicked() {
-        viewModelScope.launch {
-            if (!track.isFavorite) {
-                track.isFavorite = true
-                favTrInteractor.insertTrack(track)
-                _isFavorite.postValue(FavTrState(true))
-            } else {
-                track.isFavorite = false
-                favTrInteractor.deleteTrack(track)
-                _isFavorite.postValue(FavTrState(false))
-            }
+    suspend fun onFavoriteClicked() {
+        if (_isFavorite.value?.favTrState == false) {
+            track!!.isFavorite = true
+            favTrInteractor.insertTrack(track!!)
+            _isFavorite.postValue(FavTrState(true))
+        } else {
+            track!!.isFavorite = false
+            favTrInteractor.deleteTrack(track!!.trackId)
+            _isFavorite.postValue(FavTrState(false))
         }
     }
 
@@ -73,7 +80,7 @@ class PlayerViewModel(
     }
 
     private fun preparePlayer() {
-        mediaPlayer.setDataSource(track.previewUrl)
+        mediaPlayer.setDataSource(track?.previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
             StateLiveData.postValue(PlayerState(STATE_PREPARED))
