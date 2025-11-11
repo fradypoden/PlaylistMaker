@@ -1,6 +1,8 @@
 package com.example.playlistmaker.di
 
 import android.content.Context
+import androidx.room.Room
+import com.example.playlistmaker.player.data.db.AppDatabase
 import com.example.playlistmaker.search.data.NetworkClient
 import com.example.playlistmaker.search.data.PrefsStorageClient
 import com.example.playlistmaker.search.data.RetrofitNetworkClient
@@ -45,4 +47,11 @@ val dataModule = module {
     single<ExternalNavigator>{
         ExternalNavigatorImpl(androidContext())
     }
+
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
 }

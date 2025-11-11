@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -15,6 +16,7 @@ import com.example.playlistmaker.databinding.FragmentTrackBinding
 import com.example.playlistmaker.player.ui.PlayerViewModel.Companion.STATE_PAUSED
 import com.example.playlistmaker.player.ui.PlayerViewModel.Companion.STATE_PLAYING
 import com.example.playlistmaker.search.domain.Track
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.time.OffsetDateTime
@@ -48,7 +50,32 @@ class PlayerFragment : Fragment() {
 
         val url = track?.previewUrl
 
-        val viewModel: PlayerViewModel by viewModel { parametersOf(url) }
+        val viewModel: PlayerViewModel by viewModel { parametersOf() }
+
+        if (track != null) {
+            lifecycleScope.launch {
+                viewModel.setTrack(track)
+            }
+        }
+
+        if (track!!.isFavorite) {
+            binding.favorite.setImageResource(R.drawable.favorite_yes)
+        } else binding.favorite.setImageResource(R.drawable.favorite)
+
+
+        binding.favorite.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.onFavoriteClicked()
+            }
+        }
+
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+            if (isFavorite.favTrState) {
+                binding.favorite.setImageResource(R.drawable.favorite_yes)
+            } else {
+                binding.favorite.setImageResource(R.drawable.favorite)
+            }
+        }
 
         binding.play.setOnClickListener {
             viewModel.onPlayButtonClicked()
@@ -66,6 +93,7 @@ class PlayerFragment : Fragment() {
                         binding.time.text = state.time
                     }
                 }
+
                 STATE_PAUSED -> {
                     binding.play.setImageResource(R.drawable.play)
                     if (state.time != null) {
@@ -76,7 +104,8 @@ class PlayerFragment : Fragment() {
         }
 
         binding.trackTimeMillis.apply {
-            this.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
+            this.text =
+                SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
         }
 
         binding.artworkUrl100.apply {

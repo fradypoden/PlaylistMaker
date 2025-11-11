@@ -3,6 +3,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/indentation_16"
+        android:layout_weight="1"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/errorImage"
         android:layout_width="wrap_content"
@@ -13,6 +21,7 @@
 
     <TextView
         style="@style/text.noCaps.22sp.normal.black.ys_display_medium"
+        android:id="@+id/errorText"
         android:textSize="19sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

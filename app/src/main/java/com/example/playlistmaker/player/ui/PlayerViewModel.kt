@@ -5,14 +5,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.media_library.domain.FavTrInteractor
+import com.example.playlistmaker.player.domain.FavTrState
 import com.example.playlistmaker.player.domain.PlayerState
+import com.example.playlistmaker.search.domain.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPlayer) : ViewModel() {
+class PlayerViewModel(
+    private val mediaPlayer: MediaPlayer,
+    private val favTrInteractor: FavTrInteractor
+) : ViewModel() {
 
     companion object {
         const val STATE_DEFAULT = 0
@@ -26,18 +34,40 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
     private val StateLiveData = MutableLiveData<PlayerState>()
     fun observePlayerState(): LiveData<PlayerState> = StateLiveData
+    private var _isFavorite = MutableLiveData<FavTrState>()
+    val isFavorite: LiveData<FavTrState> get() = _isFavorite
+    private var track: Track? = null
 
     private var currentPosition: Int = 0
 
     init {
-        preparePlayer()
         StateLiveData.value = PlayerState(STATE_DEFAULT)
+    }
+
+    suspend fun setTrack(track: Track) {
+        this.track = track
+        val trackId = favTrInteractor.
+        getTracks().map { it.map { it.trackId } }.firstOrNull() ?: emptyList()
+        _isFavorite.postValue(FavTrState(trackId.contains(track.trackId)))
+        preparePlayer()
     }
 
     override fun onCleared() {
         super.onCleared()
         resetTimer()
         mediaPlayer.release()
+    }
+
+    suspend fun onFavoriteClicked() {
+        if (_isFavorite.value?.favTrState == false) {
+            track!!.isFavorite = true
+            favTrInteractor.insertTrack(track!!)
+            _isFavorite.postValue(FavTrState(true))
+        } else {
+            track!!.isFavorite = false
+            favTrInteractor.deleteTrack(track!!.trackId)
+            _isFavorite.postValue(FavTrState(false))
+        }
     }
 
     fun onPlayButtonClicked() {
@@ -50,7 +80,7 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
     }
 
     private fun preparePlayer() {
-        mediaPlayer.setDataSource(url)
+        mediaPlayer.setDataSource(track?.previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
             StateLiveData.postValue(PlayerState(STATE_PREPARED))
@@ -80,13 +110,18 @@ class PlayerViewModel(private val url: String, private val mediaPlayer: MediaPla
         timerJob?.cancel()
         timerJob = viewModelScope.launch {
             while (mediaPlayer.isPlaying) {
-                StateLiveData.postValue(PlayerState(status = STATE_PLAYING, time = dateFormat.format(mediaPlayer.currentPosition)))
+                StateLiveData.postValue(
+                    PlayerState(
+                        status = STATE_PLAYING,
+                        time = dateFormat.format(mediaPlayer.currentPosition)
+                    )
+                )
                 delay(DELAY)
             }
         }
     }
 
-    fun updateTimerNow(){
+    fun updateTimerNow() {
         currentPosition = mediaPlayer.currentPosition
         StateLiveData.postValue(
             PlayerState(
