@@ -19,3 +19,5 @@ data class TrackEntity(
     val dateAdded: Long,
     var isFavorite: Boolean = false
 )
+
+

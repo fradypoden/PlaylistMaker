@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/whiteOnBlack"
+    android:orientation="vertical"
+    tools:context="com.example.playlistmaker.settings.ui.SettingsFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="4dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStartWithNavigation="64dp"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="?attr/blackOnWhite"
+        app:title="@string/newPlayList" />
+
+    <ImageView
+        android:id="@+id/pickerImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/dotted_frame"
+        android:padding="118.5dp"
+        android:scaleType="fitCenter"
+
+        android:clickable="true"/>
+
+    <EditText
+        style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey.switchColors"
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/indentation_16"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/frame"
+        android:hint="@string/name"
+        android:paddingHorizontal="@dimen/indentation_16"
+        android:paddingTop="18dp"
+        android:paddingBottom="19dp" />
+
+    <EditText
+        style="@style/text.paddingV21.noCaps.16dp.normal.black.ys_display_regular.ic_dark_grey.switchColors"
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/indentation_16"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/frame"
+        android:hint="@string/description"
+        android:paddingHorizontal="@dimen/indentation_16"
+        android:paddingTop="18dp"
+        android:paddingBottom="19dp" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="17dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/blue"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/small_text_size"
+        android:textStyle="normal"
+        app:cornerRadius="@dimen/indentation_8" />
+
+</LinearLayout>
